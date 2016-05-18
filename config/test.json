@@ -1,0 +1,8 @@
+{
+    "server": {
+        "port" : 3000
+    },
+    "tokenSecret": "6sma10",
+    "tokenSecretc": "6sma120"
+}
+

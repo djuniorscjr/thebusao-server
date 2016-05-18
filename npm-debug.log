@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/domdsncjr/.nvm/versions/node/v5.9.1/bin/node',
+1 verbose cli   '/home/domdsncjr/.nvm/versions/node/v5.9.1/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'debug' ]
+2 info using npm@3.8.6
+3 info using node@v5.9.1
+4 verbose run-script [ 'predebug', 'debug', 'postdebug' ]
+5 info lifecycle thebusao-server@1.0.0~predebug: thebusao-server@1.0.0
+6 silly lifecycle thebusao-server@1.0.0~predebug: no script for predebug, continuing
+7 info lifecycle thebusao-server@1.0.0~debug: thebusao-server@1.0.0
+8 verbose lifecycle thebusao-server@1.0.0~debug: unsafe-perm in lifecycle true
+9 verbose lifecycle thebusao-server@1.0.0~debug: PATH: /home/domdsncjr/.nvm/versions/node/v5.9.1/lib/node_modules/npm/bin/node-gyp-bin:/home/domdsncjr/Projects/thebusao-server/node_modules/.bin:/home/domdsncjr/.nvm/versions/node/v5.9.1/bin:/usr/local/heroku/bin:/home/domdsncjr/.nvm/versions/node/v5.9.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/opt/android/platform-tools:/opt/android/tools:/opt/android/build-tools/24.0.0-preview/
+10 verbose lifecycle thebusao-server@1.0.0~debug: CWD: /home/domdsncjr/Projects/thebusao-server
+11 silly lifecycle thebusao-server@1.0.0~debug: Args: [ '-c', 'export DEBUG=thebusao:* && nodemon' ]
+12 silly lifecycle thebusao-server@1.0.0~debug: Returned: code: 1  signal: null
+13 info lifecycle thebusao-server@1.0.0~debug: Failed to exec debug script
+14 verbose stack Error: thebusao-server@1.0.0 debug: `export DEBUG=thebusao:* && nodemon`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/home/domdsncjr/.nvm/versions/node/v5.9.1/lib/node_modules/npm/lib/utils/lifecycle.js:239:16)
+14 verbose stack     at emitTwo (events.js:100:13)
+14 verbose stack     at EventEmitter.emit (events.js:185:7)
+14 verbose stack     at ChildProcess.<anonymous> (/home/domdsncjr/.nvm/versions/node/v5.9.1/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at emitTwo (events.js:100:13)
+14 verbose stack     at ChildProcess.emit (events.js:185:7)
+14 verbose stack     at maybeClose (internal/child_process.js:850:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+15 verbose pkgid thebusao-server@1.0.0
+16 verbose cwd /home/domdsncjr/Projects/thebusao-server
+17 error Linux 3.19.0-59-generic
+18 error argv "/home/domdsncjr/.nvm/versions/node/v5.9.1/bin/node" "/home/domdsncjr/.nvm/versions/node/v5.9.1/bin/npm" "run" "debug"
+19 error node v5.9.1
+20 error npm  v3.8.6
+21 error code ELIFECYCLE
+22 error thebusao-server@1.0.0 debug: `export DEBUG=thebusao:* && nodemon`
+22 error Exit status 1
+23 error Failed at the thebusao-server@1.0.0 debug script 'export DEBUG=thebusao:* && nodemon'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the thebusao-server package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     export DEBUG=thebusao:* && nodemon
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs thebusao-server
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls thebusao-server
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]
