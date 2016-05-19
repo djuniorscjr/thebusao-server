@@ -5,7 +5,7 @@ const   debug   = require('debug')('thebusao:controller'),
         config  = require('config');
 
 const generateTokenAuth = (data) => {
-    const expires = moment().add(10, 'minutes').valueOf();
+    const expires = moment().add(9, 'minutes').valueOf();
     const token = jwt.encode({
         user: data,
         exp: expires
