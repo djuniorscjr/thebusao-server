@@ -1,3 +1,5 @@
+'use strict';
+
 const   express         = require('express'),
         methodOverride  = require('method-override'),
         cors            = require('cors'),
@@ -26,7 +28,7 @@ app.use((request, response, next) => {
 app.use('/', require('./routes'));
 
 app.use((request, response, next) => {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });

@@ -1,97 +1,121 @@
+'use strict';
+
 const   debug   = require('debug')('thebusao:controller'),
         needle  = require('needle'),
         moment  = require('moment'),
         jwt     = require('jwt-simple'),
         config  = require('config');
 
-const generateTokenAuth = (data) => {
-    const expires = moment().add(9, 'minutes').valueOf();
-    const token = jwt.encode({
-        user: data,
-        exp: expires
-    }, config.get('tokenSecretc'));
-    return token;
-};
+class IndexController {
 
-var options = {
-    headers: {
-        'X-Api-Key': 'a167fb1cdc6e49d59ffbd1409d87e87c',
-        'Accept-Language': 'en',
-        'Content-Type': 'application/json',
-        'Date': new Date().toGMTString()
+    constructor(){
+        this.opts = {
+            headers: {
+                'X-Api-Key': 'a167fb1cdc6e49d59ffbd1409d87e87c',
+                'Accept-Language': 'en',
+                'Content-Type': 'application/json',
+                'Date': new Date().toGMTString()
+            }
+        };
+        this.host = 'https://api.inthegra.strans.teresina.pi.gov.br';
     }
-};
 
-const host = 'https://api.inthegra.strans.teresina.pi.gov.br';
+    getToken(request, response, next){
+        const bodyJson = JSON.stringify({"email": "fogaozinhu@hotmail.com", "password": "6sma10"});
+        needle.post(this.host + '/v1/signin',
+            bodyJson, this.opts, (err, resp) => {
+                if (resp != null && resp.statusCode === 200) {
+                    let token = this.generateTokenAuth(resp.body.token);
+                    response.json({
+                        'token': token
+                    });
+                }else{
+                    next(err);
+                }
+        });
+    }
 
-function IndexController() {
+    getSingleOrAllLines(request, response, next){
+        this.opts.headers['X-Auth-Token'] = request.user;
+        let value = request.params.search;
+        if(value != 0){
+            this.getLines(value, request, response, next);
+        }else{
+            this.getAllLines(request, response, next);
+        }
+    }
+
+    getLines(value, request, response, next) {
+        debug(value);
+        needle.get(this.host + '/v1/linhas?busca=' + value,
+            this.opts, (err, resp) => {
+                if (resp != null && resp.statusCode === 200) {
+                    response.json({
+                        'result': resp.body
+                    });
+                }else{
+                    next(err);
+                }
+        });
+    }
+
+    getAllLines(request, response, next) {
+        needle.get(this.host + '/v1/linhas',
+            this.opts, (err, resp) => {
+                if (resp != null && resp.statusCode === 200) {
+                    response.json({
+                        'result': resp.body
+                    });
+                }else{
+                    next(err);
+                }
+        });
+    }
+
+    getSingleOrAllVehicles(request, response, next){
+        this.opts.headers['X-Auth-Token'] = request.user;
+        let value = request.params.code;
+        if(value != 0){
+            this.getVehicles(value, request, response, next);
+        }else{
+            this.getAllVehicles(request, response, next);
+        }
+    }
+
+    getVehicles(value, request, response, next) {
+        debug(value);
+        needle.get(this.host + '/v1/veiculosLinha?busca=' + value,
+            this.opts, (err, resp) => {
+                if (resp != null && resp.statusCode === 200) {
+                    response.json({
+                        'result': resp.body
+                    });
+                }else{
+                    next(err);
+                }
+        });
+    }
+
+    getAllVehicles(request, response, next) {
+        needle.get(this.host + '/v1/veiculos',
+            this.opts, (err, resp) => {
+                if (resp != null && resp.statusCode === 200) {
+                    response.json({
+                        'result': resp.body
+                    });
+                }else{
+                    next(err);
+                }
+        });
+    }
+
+    generateTokenAuth(data) {
+        let expires = moment().add(9, 'seconds').valueOf();
+        let token = jwt.encode({
+            user: data,
+            exp: expires
+        }, config.get('tokenSecretc'));
+        return token;
+    }
 }
-
-IndexController.prototype.getToken = (request, response, next) => {
-    const bodyJson = JSON.stringify({"email": "fogaozinhu@hotmail.com", "password": "6sma10"});
-    needle.post(host + '/v1/signin',
-        bodyJson, options, (err, resp) => {
-            if (resp.statusCode === 200) {
-                const token = generateTokenAuth(resp.body.token);
-                response.json({
-                    'token': token
-                });
-            }else{
-                next(err);
-            }
-    });
-};
-
-IndexController.prototype.getVeiculos = (request, response, next) => {
-    const value = request.body.search;
-    if(value){
-        var err = new Error("Search not be empty.");
-        err.status = 401;
-        next(err);
-    }else{
-        options.headers['X-Auth-Token'] = request.user;
-        needle.get(host + '/v1/linhas?busca=' + value,
-            options, (err, resp) => {
-                if (resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
-                    });
-                }
-                next(err);
-        });
-    }
-};
-IndexController.prototype.getAllVeiculos = (request, response, next) => {
-    options.headers['X-Auth-Token'] = request.user;
-    needle.get(host + '/v1/veiculos',
-        options, (err, resp) => {
-            if (resp.statusCode === 200) {
-                response.json({
-                    'result': resp.body
-                });
-            }
-            next(err);
-    });
-};
-
-IndexController.prototype.getLinha = (request, response, next) => {
-    const value = request.body.code;
-    if(value){
-        var err = new Error("Code not be empty.");
-        err.status = 401;
-        next(err);
-    }else{
-        options.headers['X-Auth-Token'] = request.user;
-        needle.get(host + '/v1/veiculosLinha?busca=' + value,
-            options, (err, resp) => {
-                if (resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
-                    });
-                }
-                next(err);
-        });
-    }
-};
-
 module.exports = new IndexController();

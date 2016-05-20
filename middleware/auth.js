@@ -1,3 +1,5 @@
+'use strict';
+
 const   jwt = require('jwt-simple'),
         config = require('config'),
         debug  = require('debug')('thebusao:auth'),
@@ -6,7 +8,7 @@ const   jwt = require('jwt-simple'),
 const middlewarAuth = (request, response, next) => {
     const token = request.query.token || request.headers['x-access-token'];
     if(!token){
-        var err = new Error('Forbidden');
+        let err = new Error('Forbidden');
         err.status = 403;
         return next(err);
     }
@@ -15,14 +17,14 @@ const middlewarAuth = (request, response, next) => {
         const decoded = jwt.decode(token, config.get('tokenSecretc'));
         const isExpired = moment(decoded.exp).isBefore(new Date());
         if(isExpired){
-            var err = new Error('Token expirado');
+            let err = new Error('Token expirado');
             err.status = 401;
             return next(err);
         } else if(decoded.code == undefined) {
             request.user = decoded.user;
             next();
         } else {
-            var err = new Error('Forbidden');
+            let err = new Error('Forbidden');
             err.status = 403;
             return next(err);
         }
