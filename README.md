@@ -17,4 +17,7 @@ $ cd thebusao-server
 
 # install dependencies
 $ npm install
+
+# execute testing
+$ npm run test-api
 ```
