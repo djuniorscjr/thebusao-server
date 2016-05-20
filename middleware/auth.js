@@ -19,18 +19,16 @@ const middlewarAuth = (request, response, next) => {
         if(isExpired){
             let err = new Error('Token expirado');
             err.status = 401;
-            return next(err);
+            throw err;
         } else if(decoded.code == undefined) {
             request.user = decoded.user;
             next();
         } else {
             let err = new Error('Forbidden');
             err.status = 403;
-            return next(err);
+            throw err;
         }
     } catch(err){
-        err = new Error('Forbidden');
-        err.status = 403;
         next(err);
     }
 };

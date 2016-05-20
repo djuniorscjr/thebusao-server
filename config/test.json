@@ -3,6 +3,7 @@
         "port" : 3000
     },
     "tokenSecret": "6sma10",
-    "tokenSecretc": "6sma120"
+    "tokenSecretc": "6sma120",
+    "api-key": "a167fb1cdc6e49d59ffbd1409d87e87c"
 }
 

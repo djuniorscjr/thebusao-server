@@ -3,5 +3,6 @@
         "port" : 3000
     },
     "tokenSecret": "ge",
-    "tokenSecretc": "gex"
+    "tokenSecretc": "gex",
+    "api-key": "a167fb1cdc6e49d59ffbd1409d87e87c"
 }

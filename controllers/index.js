@@ -11,7 +11,7 @@ class IndexController {
     constructor(){
         this.opts = {
             headers: {
-                'X-Api-Key': 'a167fb1cdc6e49d59ffbd1409d87e87c',
+                'X-Api-Key': config.get('api-key'),
                 'Accept-Language': 'en',
                 'Content-Type': 'application/json',
                 'Date': new Date().toGMTString()
