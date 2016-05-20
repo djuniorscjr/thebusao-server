@@ -38,7 +38,7 @@ class IndexController {
     getSingleOrAllLines(request, response, next){
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.search;
-        if(value != 0){
+        if(value){
             this.getLines(value, request, response, next);
         }else{
             this.getAllLines(request, response, next);
@@ -75,7 +75,7 @@ class IndexController {
     getSingleOrAllVehicles(request, response, next){
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.code;
-        if(value != 0){
+        if(value){
             this.getVehicles(value, request, response, next);
         }else{
             this.getAllVehicles(request, response, next);
