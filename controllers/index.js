@@ -35,18 +35,9 @@ class IndexController {
         });
     }
 
-    getSingleOrAllLines(request, response, next){
+    getLines(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.search;
-        if(value){
-            this.getLines(value, request, response, next);
-        }else{
-            this.getAllLines(request, response, next);
-        }
-    }
-
-    getLines(value, request, response, next) {
-        debug(value);
         needle.get(this.host + '/v1/linhas?busca=' + value,
             this.opts, (err, resp) => {
                 if (resp != null && resp.statusCode === 200) {
@@ -72,18 +63,9 @@ class IndexController {
         });
     }
 
-    getSingleOrAllVehicles(request, response, next){
+    getVehicles(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.code;
-        if(value){
-            this.getVehicles(value, request, response, next);
-        }else{
-            this.getAllVehicles(request, response, next);
-        }
-    }
-
-    getVehicles(value, request, response, next) {
-        debug(value);
         needle.get(this.host + '/v1/veiculosLinha?busca=' + value,
             this.opts, (err, resp) => {
                 if (resp != null && resp.statusCode === 200) {
