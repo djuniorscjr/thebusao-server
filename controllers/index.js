@@ -51,6 +51,7 @@ class IndexController {
     }
 
     getAllLines(request, response, next) {
+        this.opts.headers['X-Auth-Token'] = request.user;
         needle.get(this.host + '/v1/linhas',
             this.opts, (err, resp) => {
                 if (resp != null && resp.statusCode === 200) {
@@ -68,9 +69,11 @@ class IndexController {
         let value = request.params.code;
         needle.get(this.host + '/v1/veiculosLinha?busca=' + value,
             this.opts, (err, resp) => {
-                if (resp != null && resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
+                if (resp != null && [200, 404].indexOf(resp.statusCode) != -1) {
+                    let result = resp.statusCode == 200 ? resp.body : [];
+                    debug(result);
+                    response.status(200).json({
+                        'result': result
                     });
                 }else{
                     next(err);
@@ -79,6 +82,7 @@ class IndexController {
     }
 
     getAllVehicles(request, response, next) {
+        this.opts.headers['X-Auth-Token'] = request.user;
         needle.get(this.host + '/v1/veiculos',
             this.opts, (err, resp) => {
                 if (resp != null && resp.statusCode === 200) {
@@ -92,7 +96,7 @@ class IndexController {
     }
 
     generateTokenAuth(data) {
-        let expires = moment().add(9, 'seconds').valueOf();
+        let expires = moment().add(9, 'minutes').valueOf();
         let token = jwt.encode({
             user: data,
             exp: expires

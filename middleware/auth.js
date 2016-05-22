@@ -7,20 +7,20 @@ const   jwt = require('jwt-simple'),
 
 const middlewarAuth = (request, response, next) => {
     const token = request.query.token || request.headers['x-access-token'];
-    if(!token){
-        let err = new Error('Forbidden');
-        err.status = 403;
-        return next(err);
-    }
-
     try {
+        if(!token){
+            let err = new Error('Forbidden');
+            err.status = 403;
+            throw err;
+        }
         const decoded = jwt.decode(token, config.get('tokenSecretc'));
         const isExpired = moment(decoded.exp).isBefore(new Date());
+
         if(isExpired){
             let err = new Error('Token expirado');
             err.status = 401;
             throw err;
-        } else if(decoded.code == undefined) {
+        } else if(decoded.user) {
             request.user = decoded.user;
             next();
         } else {
