@@ -71,7 +71,9 @@ class IndexController {
             this.opts, (err, resp) => {
                 if (resp != null && [200, 404].indexOf(resp.statusCode) != -1) {
                     let result = resp.statusCode == 200 ? resp.body : [];
-                    debug(result);
+                    if(result != []){
+                        result = this.separateResultArray(result);
+                    }
                     response.status(200).json({
                         'result': result
                     });
@@ -102,6 +104,16 @@ class IndexController {
             exp: expires
         }, config.get('tokenSecretc'));
         return token;
+    }
+
+    separateResultArray(res){
+        let result = res.Linha;
+        let arrV = result.Veiculos;
+        return arrV.map(function(a){
+           a.CodigoLinha = result.CodigoLinha;
+           a.Denomicao = result.Denomicao;
+           return a;
+        });
     }
 }
 module.exports = new IndexController();
