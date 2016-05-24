@@ -70,10 +70,7 @@ class IndexController {
         needle.get(this.host + '/v1/veiculosLinha?busca=' + value,
             this.opts, (err, resp) => {
                 if (resp != null && [200, 404].indexOf(resp.statusCode) != -1) {
-                    let result = resp.statusCode == 200 ? resp.body : [];
-                    if(result.length){
-                        result = this.separateResultArray(result);
-                    }
+                    let result = resp.statusCode == 200 ? this.separateResultArray(resp.body) : [];
                     response.status(200).json({
                         'result': result
                     });
