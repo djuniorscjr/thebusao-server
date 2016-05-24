@@ -71,7 +71,7 @@ class IndexController {
             this.opts, (err, resp) => {
                 if (resp != null && [200, 404].indexOf(resp.statusCode) != -1) {
                     let result = resp.statusCode == 200 ? resp.body : [];
-                    if(result != []){
+                    if(result.length){
                         result = this.separateResultArray(result);
                     }
                     response.status(200).json({
