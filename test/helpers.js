@@ -1,11 +1,7 @@
-var supertest = require("supertest"),
-    app       = require("../app"),
-    async     = require("async"),
-    debug     = require("debug")("thebusao:test"),
-    should    = require('chai').should();
+const app =  require("../app");
 
-global.app = app;
-global.request = supertest(app);
-global.should = should;
-global.debug = debug;
-global.async = async;
+global.request = require("supertest")(app),
+global.async   = require("async"),
+global.Promise = require("bluebird"),
+global.debug   = require("debug")("thebusao:test"),
+global.should  = require('chai').should();

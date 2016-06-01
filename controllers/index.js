@@ -1,10 +1,12 @@
 'use strict';
 
 const   debug   = require('debug')('thebusao:controller'),
-        needle  = require('needle'),
         moment  = require('moment'),
         jwt     = require('jwt-simple'),
         config  = require('config');
+
+const  Promise = require("bluebird");
+const  req = Promise.promisifyAll(require("../util/request"));
 
 class IndexController {
 
@@ -22,76 +24,65 @@ class IndexController {
 
     getToken(request, response, next){
         const bodyJson = JSON.stringify({"email": "fogaozinhu@hotmail.com", "password": "6sma10"});
-        needle.post(this.host + '/v1/signin',
-            bodyJson, this.opts, (err, resp) => {
-                if (resp != null && resp.statusCode === 200) {
-                    let token = this.generateTokenAuth(resp.body.token);
+        req.postAsync(this.host + "/v1/signin", bodyJson, this.opts)
+            .then((res, error) => {
+                if(res && res.statusCode === 200) {
+                    let token = this.generateTokenAuth(res.body.token);
                     response.json({
-                        'token': token
+                        token: token
                     });
-                }else{
-                    next(err);
                 }
-        });
+            })
+        .catch(next);
     }
 
     getLines(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.search;
-        needle.get(this.host + '/v1/linhas?busca=' + value,
-            this.opts, (err, resp) => {
-                if (resp != null && resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
-                    });
-                }else{
-                    next(err);
+        req.getAsync(this.host + "/v1/linhas?busca=" + value, this.opts)
+            .then((res, error) => {
+                if(res && res.statusCode === 200){
+                    response.json({'result': res.body});
                 }
-        });
+            })
+        .catch(next);
     }
 
     getAllLines(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
-        needle.get(this.host + '/v1/linhas',
-            this.opts, (err, resp) => {
-                if (resp != null && resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
-                    });
-                }else{
-                    next(err);
+        req.getAsync(this.host + "/v1/linhas", this.opts)
+            .then((res, error) => {
+                if(res && res.statusCode === 200){
+                    response.json({'result': res.body});
                 }
-        });
+            })
+        .catch(next);
     }
 
     getVehicles(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
         let value = request.params.code;
-        needle.get(this.host + '/v1/veiculosLinha?busca=' + value,
-            this.opts, (err, resp) => {
-                if (resp != null && [200, 404].indexOf(resp.statusCode) != -1) {
-                    let result = resp.statusCode == 200 ? this.separateResultArray(resp.body) : [];
+        req.getAsync(this.host + "/v1/veiculosLinha?busca=" + value, this.opts)
+            .then((res, error) => {
+                if (res && [200, 404].indexOf(res.statusCode) != -1) {
+                    let result = res.statusCode == 200 ? this.separateResultArray(res.body) : [];
                     response.status(200).json({
                         'result': result
                     });
-                }else{
-                    next(err);
                 }
-        });
+            })
+        .catch(next);
     }
 
     getAllVehicles(request, response, next) {
         this.opts.headers['X-Auth-Token'] = request.user;
-        needle.get(this.host + '/v1/veiculos',
-            this.opts, (err, resp) => {
-                if (resp != null && resp.statusCode === 200) {
-                    response.json({
-                        'result': resp.body
-                    });
-                }else{
-                    next(err);
+        req.getAsync(this.host + "/v1/veiculos", this.opts)
+            .then((res, error) => {
+                if(res && res.statusCode === 200){
+                    response.json({'result': res.body});
                 }
-        });
+            })
+        .catch(next);
     }
 
     generateTokenAuth(data) {
