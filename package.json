@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "body-parser": "^1.14.2",
     "config": "^1.19.0",
     "cors": "^2.7.1",
