@@ -6,7 +6,7 @@ const   debug   = require('debug')('thebusao:controller'),
         config  = require('config');
 
 const  Promise = require("bluebird");
-const  req = Promise.promisifyAll(require("../util/request"));
+const  req = Promise.promisifyAll(require("../utils/request"));
 
 class IndexController {
 
