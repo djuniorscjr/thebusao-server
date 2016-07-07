@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/djuniorscjr/library-app.svg?branch=master)](https://travis-ci.org/djuniorscjr/library-app)
+[![Build Status](https://travis-ci.org/djuniorscjr/thebusao-server.svg?branch=master)](https://travis-ci.org/djuniorscjr/thebusao-server)
 
 # thebusao-server
 A simple Rest Api Wrapper for http://inthegra.strans.teresina.pi.gov.br/
